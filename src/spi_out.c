@@ -1,6 +1,6 @@
 #include <Arduino.h>
-
-byte CS = 13, SCK_ = 5, SDA_ = 4;
+//#include <spi_out.h>
+#include <globalVar.h>
 
 void spi_out_(byte dat)  // Daten über SPI senden
 {
@@ -24,3 +24,4 @@ void spi_out_(byte dat)  // Daten über SPI senden
 
 
 }
+

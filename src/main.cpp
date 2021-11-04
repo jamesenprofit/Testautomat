@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <LiquidCrystal.h>
 #include <spi_out.h>
+#include <globalVar.h>
 
 String aZeile1 = "BFW MUENCHEN";
 String aZeile2 = "EGS 28 und 34";        
@@ -9,29 +10,19 @@ String aZeile4 = "Platinentester";
 String bZeile1 = "Platine anschliessen";
 String bZeile3 = "Test starten";
 
-void spi_out_(byte dat);                    // Daten über SPI senden
+//void spi_out_(byte dat);                    // Daten über SPI senden
 
 //-------------------------------PINS-----------------------------------------
 //A0= + spg; A1= - spg; A2= Strom ;
 int opto = A4; int AUS = A5;
-int Taster = 2;                   byte CS = 13;           byte SCK_ = 5;
-int LED = 3;                      byte SDA_ = 4;
+int Taster = 2;            
+int LED = 3;               
 
 
 //-4051-----MUX--------4052----     -----------------LCD--------------------
 byte A_X14 = 10;         byte a_IC2a = 0;      byte D4 = 4;    byte D5 = 5;    byte D6 = 6;
 byte B_X14 = 11;         byte b_IC2a = 1;      byte D7 = 7;    byte RS = 8;    byte EN = 9;
-byte C_X14 = 12;         byte AD_0 = A0;        byte AD_1 = A1;  byte AD_2 = A2;  byte AD_5 = A5;
-
-int V5_K19 ;          int V12_K19;         int Vneg12_K19;
-int V12_K20;          int Vneg12_K20;         
-int Vadj_K20;         int Vadj_min;        int Vadj_max;
-
-int VU_K20;
-int posSpg;             int negSpg;         int Spg;
-int Ineg12;             int Iadj;           int I; 
-
-int error;
+byte C_X14 = 12;         byte AD_0 = A0;       byte AD_1 = A1; byte AD_2 = A2; byte AD_5 = A5;
 
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 
@@ -78,8 +69,8 @@ void setup()
  lcd.setCursor(0,1);        
  lcd.print("Taster druecken");
  
-  while(digitalRead(Taster)== HIGH);           // Für Testbetrieb Dauerhaft Taster gedrückt
-  {}
+ // while(digitalRead(Taster)== HIGH);           // Für Testbetrieb Dauerhaft Taster gedrückt
+  //{}
 
  pinMode(Taster, OUTPUT);
  digitalWrite(Taster,LOW);
@@ -181,28 +172,28 @@ if (digitalRead(A_X14) == LOW)
    V5_K19 = (analogRead(AD_0));
       }
 
-if ((VU_K20 < 102) || (VU_K20 > 820) && (error<=3))
-                  {
-                    error++;
-                  lcd.print("Meldung");
-                  }
+// if ((VU_K20 < 102) || (VU_K20 > 820) && (error<=3))
+//                   {
+//                     error++;
+//                   lcd.print("Meldung");
+//                   }
   
-      {
+//       {
 
 
 
 
-        lcd.clear();
-        lcd.setCursor(0,0);
-        lcd.print("Soll:5V   IST:");
-        float Rech2 = 5*5*V5_K19/1024;
-        lcd.print(Rech2);
-        lcd.print("V");
+//         lcd.clear();
+//         lcd.setCursor(0,0);
+//         lcd.print("Soll:5V   IST:");
+//         float Rech2 = 5*5*V5_K19/1024;
+//         lcd.print(Rech2);
+//         lcd.print("V");
 
-          Rech2 = 5*5*V5_K19/1024;
-        delay(10000);
+//           Rech2 = 5*5*V5_K19/1024;
+//         delay(10000);
 
-      }
+//       }
 
 if (digitalRead(A_X14) == HIGH) 
 
