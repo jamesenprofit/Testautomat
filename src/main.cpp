@@ -1,12 +1,18 @@
 #include <Arduino.h>
 #include <LiquidCrystal.h>
+
 extern "C" {
-#include <spiout.h>
+  #include <spiout.h>
 }
 #include <globalVar.h>
 extern "C" { 
   #include <func_spgmess.h>
 }
+
+extern "C"{
+  #include <func_strmess.h>
+}
+
 String aZeile1 = "BFW MUENCHEN";
 String aZeile2 = "EGS 28 und 34";        
 String aZeile3 = " ";
@@ -81,96 +87,29 @@ void setup()
 
 void loop()
 {
- void func_spgmess(); 
- void func_spgmess12V();
- void func_spgmess_5V_K19();
-    
-// if (digitalRead(A_X14) == LOW)
-//       {
-       
-       
-       
-       
-//        delay(500);  
+ 
+if (digitalRead(A_X14) == LOW)
+      {
+           
+      delay(500);  
       
-//        lcd.clear();
-//        lcd.setCursor(1,1);
-//        lcd.print("Spannungsmessung 1"); 
-       
-//        digitalWrite(A_X14, HIGH);   // LSB
-//        digitalWrite(B_X14, LOW);
-//        digitalWrite(C_X14, LOW);  // MSB
-      
-//        digitalWrite(a_IC2a, LOW); // LSB
-//        digitalWrite(b_IC2a, LOW); // MSB
-//        delay(200);
-              
-//       VU_K20 = (analogRead(AD_0));
-          
-//        delay(300); 
+      lcd.clear();
+      lcd.setCursor(1,1);
+      lcd.print("Spannungsmessung 1"); 
+      func_spgmess_V5_K19();
+      V5_K19 = (analogRead(A0));
 
-//        digitalWrite(A_X14, LOW);   // LSB
-//        digitalWrite(B_X14, HIGH);
-//        digitalWrite(C_X14, LOW);  // MSB
-      
-//        digitalWrite(a_IC2a, LOW); // LSB
-//        digitalWrite(b_IC2a, LOW); // MSB
+        lcd.clear();
+        lcd.setCursor(0,0);
+        lcd.print("Soll:5V   IST:");
+        float Rech2 = 5*5*V5_K19/1024;
+        lcd.print(Rech2);
+        lcd.print("V");
 
-//        delay(200); 
-        
-//        Vadj_K20 = (analogRead(AD_0));
+        //Rech2 = 5*5*V5_K19/1024;
+        delay(10000);
 
-//        digitalWrite(A_X14, HIGH); // LSB
-//        digitalWrite(B_X14, HIGH);
-//        digitalWrite(C_X14, LOW);  // MSB
-      
-//        digitalWrite(a_IC2a, LOW); // LSB
-//        digitalWrite(b_IC2a, LOW); // MSB
-       
-//       Vneg12_K20 = (analogRead(AD_1));
-
-//       delay(200);
-
-//        digitalWrite(A_X14, LOW);   // LSB
-//        digitalWrite(B_X14, LOW);
-//        digitalWrite(C_X14, HIGH);  // MSB
-      
-//        digitalWrite(a_IC2a, LOW); // LSB
-//        digitalWrite(b_IC2a, LOW); // MSB
-//        delay(200);
-
-//       V12_K20 = (analogRead(AD_0));
-
-//     digitalWrite(A_X14, HIGH);   // LSB
-//     digitalWrite(B_X14, LOW);
-//     digitalWrite(C_X14, HIGH);  // MSB
-    
-//     digitalWrite(a_IC2a, LOW); // LSB
-//     digitalWrite(b_IC2a, LOW); // MSB
-//     delay(200);
-
-//     Vneg12_K19 = (analogRead(AD_1));
-
-//     digitalWrite(A_X14, LOW);   // LSB
-//     digitalWrite(B_X14, HIGH);
-//     digitalWrite(C_X14, HIGH);  // MSB
-    
-//     digitalWrite(a_IC2a, LOW); // LSB
-//     digitalWrite(b_IC2a, LOW); // MSB
-//     delay(200);
-
-//     V12_K19 = (analogRead(AD_0));
-
-//     digitalWrite(A_X14, HIGH);   // LSB
-//     digitalWrite(B_X14, HIGH);
-//     digitalWrite(C_X14, HIGH);  // MSB
-    
-//     digitalWrite(a_IC2a, LOW); // LSB
-//     digitalWrite(b_IC2a, LOW); // MSB
-//     delay(200);
-
-//    V5_K19 = (analogRead(AD_0));
-//       }
+      }
 
 // if ((VU_K20 < 102) || (VU_K20 > 820) && (error<=3))
 //                   {
@@ -195,45 +134,45 @@ void loop()
 
 //       }
 
-if (digitalRead(A_X14) == HIGH) 
+// if (digitalRead(A_X14) == HIGH) 
 
-    {
+//     {
       
-      lcd.clear();
-      lcd.setCursor(2,1);
-      lcd.print("Strommessung");
+//       lcd.clear();
+//       lcd.setCursor(2,1);
+//       lcd.print("Strommessung");
     
-    digitalWrite(A_X14, LOW);   // LSB
-    digitalWrite(B_X14, HIGH);
-    digitalWrite(C_X14, LOW);  // MSB
+//     digitalWrite(A_X14, LOW);   // LSB
+//     digitalWrite(B_X14, HIGH);
+//     digitalWrite(C_X14, LOW);  // MSB
     
-    digitalWrite(a_IC2a, HIGH); // LSB
-    digitalWrite(b_IC2a, LOW);  // MSB
-    delay(200);
+//     digitalWrite(a_IC2a, HIGH); // LSB
+//     digitalWrite(b_IC2a, LOW);  // MSB
+//     delay(200);
     
-          //hier Spannung an Poti senden ////SET SPI 255
-          digitalWrite(SCK_, LOW);
-          delay(1);
-          digitalWrite(CS, LOW);
-          spiout(0);     
+//           //hier Spannung an Poti senden ////SET SPI 255
+//           digitalWrite(SCK_, LOW);
+//           delay(1);
+//           digitalWrite(CS, LOW);
+//           spiout(0);     
             
-      //     digitalWrite(CS, HIGH);
-      //     delay(10000);
-      //     Vadj_K20 = analogRead(A0);
-      //     //Vadj_min=analogRead(A0);
+//           digitalWrite(CS, HIGH);
+//           delay(10000);
+//           Vadj_K20 = analogRead(A0);
+//           //Vadj_min=analogRead(A0);
 
 
-      //     //hier Spannung an Poti senden //SET SPI 0
-      //     digitalWrite(SCK_, LOW);
-      //     delay(1);
-      //     digitalWrite(CS, LOW);
-      //     spiout(255);
-      //     //Rausnehmen nur zum anschauen
-      //     digitalWrite(CS, HIGH);
-      //     delay(10000);
+//           //hier Spannung an Poti senden //SET SPI 0
+//           digitalWrite(SCK_, LOW);
+//           delay(1);
+//           digitalWrite(CS, LOW);
+//           spiout(255);
+//           //Rausnehmen nur zum anschauen
+//           digitalWrite(CS, HIGH);
+//           delay(10000);
 
-          Vadj_max = analogRead(A0);
-    }
+//           Vadj_max = analogRead(A0);
+//     }
 
 // function error()
 

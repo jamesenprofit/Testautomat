@@ -2,7 +2,7 @@
 #include <globalVar.h>
 
 
-
+// Digitales Poti PINS Zum Ansprechen
 byte CS = 13 , SCK_ = 5, SDA_ = 4;
 
 //-4051-------MUX--------4052-------           
@@ -20,6 +20,7 @@ byte D7 = 7;    byte RS = 8;    byte EN = 9;
 int Taster = 2;            
 int LED = 3;            
 
+//----------------Auslese Pins Am Arduino----------------
 // byte AD_0 = A0;
 // byte AD_1 = A1;
 // byte AD_2 = A2;
