@@ -1,8 +1,12 @@
 #include <Arduino.h>
 #include <LiquidCrystal.h>
-#include <spi_out.h>
+extern "C" {
+#include <spiout.h>
+}
 #include <globalVar.h>
-
+extern "C" { 
+  #include <func_spgmess.h>
+}
 String aZeile1 = "BFW MUENCHEN";
 String aZeile2 = "EGS 28 und 34";        
 String aZeile3 = " ";
@@ -10,26 +14,19 @@ String aZeile4 = "Platinentester";
 String bZeile1 = "Platine anschliessen";
 String bZeile3 = "Test starten";
 
-//void spi_out_(byte dat);                    // Daten über SPI senden
 
 //-------------------------------PINS-----------------------------------------
 //A0= + spg; A1= - spg; A2= Strom ;
 int opto = A4; int AUS = A5;
-int Taster = 2;            
-int LED = 3;               
-
-
-//-4051-----MUX--------4052----     -----------------LCD--------------------
-byte A_X14 = 10;         byte a_IC2a = 0;      byte D4 = 4;    byte D5 = 5;    byte D6 = 6;
-byte B_X14 = 11;         byte b_IC2a = 1;      byte D7 = 7;    byte RS = 8;    byte EN = 9;
-byte C_X14 = 12;         byte AD_0 = A0;       byte AD_1 = A1; byte AD_2 = A2; byte AD_5 = A5;
+             
+byte AD_0 = A0, AD_1 = A1, AD_2 = A2, AD_5 = A5;
 
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 
 void setup()
 {
   
- 
+
  pinMode(A_X14, OUTPUT);
  pinMode(B_X14, OUTPUT);
  pinMode(C_X14, OUTPUT);
@@ -84,93 +81,96 @@ void setup()
 
 void loop()
 {
-        
-if (digitalRead(A_X14) == LOW)
-      {
+ void func_spgmess(); 
+ void func_spgmess12V();
+ void func_spgmess_5V_K19();
+    
+// if (digitalRead(A_X14) == LOW)
+//       {
        
        
        
        
-       delay(500);  
+//        delay(500);  
       
-       lcd.clear();
-       lcd.setCursor(1,1);
-       lcd.print("Spannungsmessung 1"); 
+//        lcd.clear();
+//        lcd.setCursor(1,1);
+//        lcd.print("Spannungsmessung 1"); 
        
-       digitalWrite(A_X14, HIGH);   // LSB
-       digitalWrite(B_X14, LOW);
-       digitalWrite(C_X14, LOW);  // MSB
+//        digitalWrite(A_X14, HIGH);   // LSB
+//        digitalWrite(B_X14, LOW);
+//        digitalWrite(C_X14, LOW);  // MSB
       
-       digitalWrite(a_IC2a, LOW); // LSB
-       digitalWrite(b_IC2a, LOW); // MSB
-       delay(200);
+//        digitalWrite(a_IC2a, LOW); // LSB
+//        digitalWrite(b_IC2a, LOW); // MSB
+//        delay(200);
               
-      VU_K20 = (analogRead(AD_0));
+//       VU_K20 = (analogRead(AD_0));
           
-       delay(300); 
+//        delay(300); 
 
-       digitalWrite(A_X14, LOW);   // LSB
-       digitalWrite(B_X14, HIGH);
-       digitalWrite(C_X14, LOW);  // MSB
+//        digitalWrite(A_X14, LOW);   // LSB
+//        digitalWrite(B_X14, HIGH);
+//        digitalWrite(C_X14, LOW);  // MSB
       
-       digitalWrite(a_IC2a, LOW); // LSB
-       digitalWrite(b_IC2a, LOW); // MSB
+//        digitalWrite(a_IC2a, LOW); // LSB
+//        digitalWrite(b_IC2a, LOW); // MSB
 
-       delay(200); 
+//        delay(200); 
         
-       Vadj_K20 = (analogRead(AD_0));
+//        Vadj_K20 = (analogRead(AD_0));
 
-       digitalWrite(A_X14, HIGH); // LSB
-       digitalWrite(B_X14, HIGH);
-       digitalWrite(C_X14, LOW);  // MSB
+//        digitalWrite(A_X14, HIGH); // LSB
+//        digitalWrite(B_X14, HIGH);
+//        digitalWrite(C_X14, LOW);  // MSB
       
-       digitalWrite(a_IC2a, LOW); // LSB
-       digitalWrite(b_IC2a, LOW); // MSB
+//        digitalWrite(a_IC2a, LOW); // LSB
+//        digitalWrite(b_IC2a, LOW); // MSB
        
-      Vneg12_K20 = (analogRead(AD_1));
+//       Vneg12_K20 = (analogRead(AD_1));
 
-      delay(200);
+//       delay(200);
 
-       digitalWrite(A_X14, LOW);   // LSB
-       digitalWrite(B_X14, LOW);
-       digitalWrite(C_X14, HIGH);  // MSB
+//        digitalWrite(A_X14, LOW);   // LSB
+//        digitalWrite(B_X14, LOW);
+//        digitalWrite(C_X14, HIGH);  // MSB
       
-       digitalWrite(a_IC2a, LOW); // LSB
-       digitalWrite(b_IC2a, LOW); // MSB
-       delay(200);
+//        digitalWrite(a_IC2a, LOW); // LSB
+//        digitalWrite(b_IC2a, LOW); // MSB
+//        delay(200);
 
-      V12_K20 = (analogRead(AD_0));
+//       V12_K20 = (analogRead(AD_0));
 
-    digitalWrite(A_X14, HIGH);   // LSB
-    digitalWrite(B_X14, LOW);
-    digitalWrite(C_X14, HIGH);  // MSB
+//     digitalWrite(A_X14, HIGH);   // LSB
+//     digitalWrite(B_X14, LOW);
+//     digitalWrite(C_X14, HIGH);  // MSB
     
-    digitalWrite(a_IC2a, LOW); // LSB
-    digitalWrite(b_IC2a, LOW); // MSB
-    delay(200);
+//     digitalWrite(a_IC2a, LOW); // LSB
+//     digitalWrite(b_IC2a, LOW); // MSB
+//     delay(200);
 
-    Vneg12_K19 = (analogRead(AD_1));
+//     Vneg12_K19 = (analogRead(AD_1));
 
-    digitalWrite(A_X14, LOW);   // LSB
-    digitalWrite(B_X14, HIGH);
-    digitalWrite(C_X14, HIGH);  // MSB
+//     digitalWrite(A_X14, LOW);   // LSB
+//     digitalWrite(B_X14, HIGH);
+//     digitalWrite(C_X14, HIGH);  // MSB
     
-    digitalWrite(a_IC2a, LOW); // LSB
-    digitalWrite(b_IC2a, LOW); // MSB
-    delay(200);
+//     digitalWrite(a_IC2a, LOW); // LSB
+//     digitalWrite(b_IC2a, LOW); // MSB
+//     delay(200);
 
-    V12_K19 = (analogRead(AD_0));
+//     V12_K19 = (analogRead(AD_0));
 
-    digitalWrite(A_X14, HIGH);   // LSB
-    digitalWrite(B_X14, HIGH);
-    digitalWrite(C_X14, HIGH);  // MSB
+//     digitalWrite(A_X14, HIGH);   // LSB
+//     digitalWrite(B_X14, HIGH);
+//     digitalWrite(C_X14, HIGH);  // MSB
     
-    digitalWrite(a_IC2a, LOW); // LSB
-    digitalWrite(b_IC2a, LOW); // MSB
-    delay(200);
+//     digitalWrite(a_IC2a, LOW); // LSB
+//     digitalWrite(b_IC2a, LOW); // MSB
+//     delay(200);
 
-   V5_K19 = (analogRead(AD_0));
-      }
+//    V5_K19 = (analogRead(AD_0));
+//       }
 
 // if ((VU_K20 < 102) || (VU_K20 > 820) && (error<=3))
 //                   {
@@ -215,22 +215,22 @@ if (digitalRead(A_X14) == HIGH)
           digitalWrite(SCK_, LOW);
           delay(1);
           digitalWrite(CS, LOW);
-          spi_out_(0);     //
+          spiout(0);     
+            
+      //     digitalWrite(CS, HIGH);
+      //     delay(10000);
+      //     Vadj_K20 = analogRead(A0);
+      //     //Vadj_min=analogRead(A0);
 
-          digitalWrite(CS, HIGH);
-          delay(10000);
-          Vadj_K20 = analogRead(A0);
-          //Vadj_min=analogRead(A0);
 
-
-          //hier Spannung an Poti senden //SET SPI 0
-          digitalWrite(SCK_, LOW);
-          delay(1);
-          digitalWrite(CS, LOW);
-          spi_out_(255);
-          //Rausnehmen nur zum anschauen
-          digitalWrite(CS, HIGH);
-          delay(10000);
+      //     //hier Spannung an Poti senden //SET SPI 0
+      //     digitalWrite(SCK_, LOW);
+      //     delay(1);
+      //     digitalWrite(CS, LOW);
+      //     spiout(255);
+      //     //Rausnehmen nur zum anschauen
+      //     digitalWrite(CS, HIGH);
+      //     delay(10000);
 
           Vadj_max = analogRead(A0);
     }
@@ -244,25 +244,4 @@ if (digitalRead(A_X14) == HIGH)
 
 }
 
-// void spi_out_(byte dat)  // Daten über SPI senden
-// {
-//   byte i = 8;                                             //dat = z.B. 15 = B0000 1111
-//   do
-//   { //          <<1          <<1         <<1          <<1          <<1         <<1         <<1
-//     if (dat & 0x80)                                    //0000 1111    0001 1110   0011 1100    0111 1000    1111 0000    1110 0000   1100 0000    1000 0000
-//       digitalWrite(SDA_, HIGH);                        //1000 0000    1000 0000   1000 0000    1000 0000    1000 0000    1000 0000   1000 0000    1000 0000
-//     else                                               //0000 0000                                          1000 0000
-//       digitalWrite(SDA_, LOW);                         //   LOW         LOW          LOW         LOW           HIGH        HIGH         HIGH        HIGH
 
-//     delayMicroseconds(60);
-//     digitalWrite(SCK_, HIGH);
-//     delayMicroseconds(60);
-
-//     dat <<= 1;
-
-//     digitalWrite(SCK_, LOW);
-//     delayMicroseconds(50);
-//   } while (--i);
-
-
-// }

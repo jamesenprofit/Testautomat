@@ -1,10 +1,8 @@
-#ifndef GLOBALVAR_H
-#define GLOBALVAR_H
-
+#include <Arduino.h>
+#pragma once
 
 // Digitales Poti PINS Zum Ansprechen
-byte CS = 13, SCK_ = 5, SDA_ = 4;
-
+extern byte CS, SCK_, SDA_;
 
 // Variablen 
 int V5_K19 ;          int V12_K19;         int Vneg12_K19;
@@ -17,5 +15,28 @@ int Ineg12;             int Iadj;           int I;
 
 int error;
 
+//----------MUX-4051-----------    
+extern byte A_X14, B_X14, C_X14;
 
-#endif
+//-------MUX-4052--------
+extern byte a_IC2a, b_IC2a;
+
+ //-----------------LCD--------------------
+extern byte D4, D5, D6;
+extern byte D7 , RS, EN;
+
+//----------------Auslese Pins Am Arduino----------------
+extern byte AD_0;
+extern byte AD_1;
+extern byte AD_2;
+extern byte AD_5;
+
+//-------------------------------PINS-----------------------------------------
+//A0= + spg; A1= - spg; A2= Strom ;
+//int opto ; int AUS;
+extern int Taster;            
+extern int LED;               
+
+
+
+
