@@ -93,9 +93,7 @@ void func_spgmess_Vadj_K20()
        digitalWrite(b_IC2a, LOW); // MSB
 
        delay(200); 
-    delay(200);
-       delay(200); 
-        
+            
        //Vadj_K20 = (analogRead(AD_0));
 }
                 

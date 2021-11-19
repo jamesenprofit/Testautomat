@@ -1,8 +1,8 @@
 #include <Arduino.h>
-#include <spiout.h>
+#include <func_spiout.h>
 #include <globalVar.h>
 
-void spiout(byte dat)  // Daten über SPI senden
+void func_spiout(byte dat)  // Daten über SPI senden
 {
   byte i = 8;                                             //dat = z.B. 15 = B0000 1111
   do

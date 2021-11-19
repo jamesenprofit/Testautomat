@@ -2,7 +2,7 @@
 #include <LiquidCrystal.h>
 
 extern "C" {
-  #include <spiout.h>
+  #include <func_spiout.h>
 }
 #include <globalVar.h>
 extern "C" { 
@@ -13,6 +13,9 @@ extern "C"{
   #include <func_strmess.h>
 }
 
+extern "C"{
+  #include <func_error.h>
+}
 String aZeile1 = "BFW MUENCHEN";
 String aZeile2 = "EGS 28 und 34";        
 String aZeile3 = " ";
@@ -91,26 +94,54 @@ void loop()
 if (digitalRead(A_X14) == LOW)
       {
            
-      delay(500);  
-      
-      lcd.clear();
-      lcd.setCursor(1,1);
-      lcd.print("Spannungsmessung 1"); 
-      func_spgmess_V5_K19();
-      V5_K19 = (analogRead(A0));
-
-        lcd.clear();
-        lcd.setCursor(0,0);
-        lcd.print("Soll:5V   IST:");
-        float Rech2 = 5*5*V5_K19/1024;
-        lcd.print(Rech2);
-        lcd.print("V");
-
-        //Rech2 = 5*5*V5_K19/1024;
-        delay(10000);
-
+          delay(500);  
+          
+          lcd.clear();
+          lcd.setCursor(1,1);
+          lcd.print("Spannungsmessung"); 
+          func_spgmess_V5_K19();
+          V5_K19 = (analogRead(A0));
+          lcd.clear();
+          lcd.setCursor(0,0);
+          lcd.print("5V");
+          lcd.setCursor(10,0);
+          lcd.print(V5_K19);
+          if ((V5_K19 > 120) || (V5_K19 < 280))
+            {
+             lcd.print("+"); 
+             delay(1000);
+            }
+          else
+          {
+            lcd.print("-");
+            func_error;
+          }    
       }
-
+if (digitalRead(A_X14) == HIGH)
+{
+          delay(500);  
+          
+          lcd.clear();
+          lcd.setCursor(1,1);
+          lcd.print("Strommessung"); 
+          func_strmess_neg12V();
+          Ineg12 = (analogRead(A2));
+          lcd.clear();
+          lcd.setCursor(0,0);
+          lcd.print("-12V");
+          lcd.setCursor(10,0);
+          lcd.print(Ineg12);
+          if ((Ineg12 > 120) || (Ineg12 < 280))
+            {
+             lcd.print("+"); 
+             delay(1000);
+            }
+          else
+          {
+            lcd.print("-");
+            error++;
+          }    
+}
 // if ((VU_K20 < 102) || (VU_K20 > 820) && (error<=3))
 //                   {
 //                     error++;
@@ -121,18 +152,6 @@ if (digitalRead(A_X14) == LOW)
 
 
 
-
-//         lcd.clear();
-//         lcd.setCursor(0,0);
-//         lcd.print("Soll:5V   IST:");
-//         float Rech2 = 5*5*V5_K19/1024;
-//         lcd.print(Rech2);
-//         lcd.print("V");
-
-//           Rech2 = 5*5*V5_K19/1024;
-//         delay(10000);
-
-//       }
 
 // if (digitalRead(A_X14) == HIGH) 
 
