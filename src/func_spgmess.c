@@ -112,3 +112,10 @@ void func_spgmess_VU_K20()
 }                
             
                
+// if ((VU_K20 < 102) || (VU_K20 > 820) && (error<=3))
+//                   {
+//                     error++;
+//                   lcd.print("Meldung");
+//                   }
+  
+//       {

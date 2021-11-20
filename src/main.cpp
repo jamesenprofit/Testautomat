@@ -16,6 +16,7 @@ extern "C"{
 extern "C"{
   #include <func_error.h>
 }
+
 String aZeile1 = "BFW MUENCHEN";
 String aZeile2 = "EGS 28 und 34";        
 String aZeile3 = " ";
@@ -93,29 +94,66 @@ void loop()
  
 if (digitalRead(A_X14) == LOW)
       {
-           
+          // Spannungsmessung V5_K19 
           delay(500);  
-          
           lcd.clear();
           lcd.setCursor(1,1);
-          lcd.print("Spannungsmessung"); 
+          lcd.print("Spannungsmessung");
+          delay(1000); 
           func_spgmess_V5_K19();
           V5_K19 = (analogRead(A0));
           lcd.clear();
-          lcd.setCursor(0,0);
-          lcd.print("5V");
-          lcd.setCursor(10,0);
-          lcd.print(V5_K19);
+          lcd.setCursor(1,0);
+          lcd.print("V5K19:");
           if ((V5_K19 > 120) || (V5_K19 < 280))
             {
+             lcd.setCursor(8,0); 
              lcd.print("+"); 
              delay(1000);
             }
           else
           {
+            lcd.setCursor(8,0);
             lcd.print("-");
-            func_error;
-          }    
+            func_error();
+          } 
+          // Spannungsmessung V12_K19
+          delay(200);
+          func_spgmess_V12_K19();
+          V12_K19 = (analogRead(A0));
+          lcd.setCursor(0,1);
+          lcd.print("V12K19:");
+          if ((V12_K19 > 370) || (V12_K19 < 530))
+          {
+            lcd.setCursor(8,1);
+            lcd.print("+");
+            delay(500);
+          }
+          else
+          {
+            lcd.setCursor(8,1);
+            lcd.print("-");
+            func_error();
+          }
+          //Spannungsmessung V12_K20
+          delay(200);
+          func_spgmess_V12_K20();
+          V12_K20 = (analogRead(A0));
+          lcd.setCursor(0,2);
+          lcd.print("V12K20:");
+          if ((V12_K19 > 370) || (V12_K19 < 530))
+          {
+            lcd.setCursor(8,2);
+            lcd.print("+");
+            delay(500);
+          }
+          else
+          {
+            lcd.setCursor(8,2);
+            lcd.print("-");
+            func_error();
+          }
+
       }
 if (digitalRead(A_X14) == HIGH)
 {
@@ -139,19 +177,9 @@ if (digitalRead(A_X14) == HIGH)
           else
           {
             lcd.print("-");
-            error++;
+            func_error();
           }    
 }
-// if ((VU_K20 < 102) || (VU_K20 > 820) && (error<=3))
-//                   {
-//                     error++;
-//                   lcd.print("Meldung");
-//                   }
-  
-//       {
-
-
-
 
 // if (digitalRead(A_X14) == HIGH) 
 
@@ -192,13 +220,6 @@ if (digitalRead(A_X14) == HIGH)
 
 //           Vadj_max = analogRead(A0);
 //     }
-
-// function error()
-
-//   if()
-//   {
-//     lcd.print("");
-//   }
 
 }
 
