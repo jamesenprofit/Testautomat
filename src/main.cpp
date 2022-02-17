@@ -1,10 +1,10 @@
 #include <Arduino.h>
 #include <LiquidCrystal.h>
-
+#include <globalVar.h>
 extern "C" {
   #include <func_spiout.h>
 }
-#include <globalVar.h>
+
 extern "C" { 
   #include <func_spgmess.h>
 }
@@ -81,7 +81,7 @@ void setup()
 
  pinMode(Taster, OUTPUT);
  digitalWrite(Taster,LOW);
- delay(4000);
+ delay(2000);
  lcd.clear();
  lcd.print("Taster gedrueckt");
 
@@ -102,125 +102,217 @@ if (digitalRead(A_X14) == LOW)
           delay(1000); 
           func_spgmess_V5_K19();
           V5_K19 = (analogRead(A0));
+          
           lcd.clear();
           lcd.setCursor(1,0);
           lcd.print("V5K19:");
-          if ((V5_K19 > 120) || (V5_K19 < 280))
+          if ((V5_K19 > 120) && (V5_K19 < 280))
             {
-             lcd.setCursor(8,0); 
+             lcd.setCursor(7,0); 
              lcd.print("+"); 
-             delay(1000);
+             delay(500);
+                               
             }
           else
           {
-            lcd.setCursor(8,0);
+            lcd.setCursor(7,0);
             lcd.print("-");
             func_error();
           } 
+
           // Spannungsmessung V12_K19
           delay(200);
           func_spgmess_V12_K19();
           V12_K19 = (analogRead(A0));
           lcd.setCursor(0,1);
           lcd.print("V12K19:");
-          if ((V12_K19 > 370) || (V12_K19 < 530))
+          if ((V12_K19 > 370) && (V12_K19 < 600))
           {
-            lcd.setCursor(8,1);
+            lcd.setCursor(7,1);
             lcd.print("+");
             delay(500);
           }
           else
           {
-            lcd.setCursor(8,1);
+            lcd.setCursor(7,1);
             lcd.print("-");
             func_error();
           }
+
           //Spannungsmessung V12_K20
           delay(200);
           func_spgmess_V12_K20();
           V12_K20 = (analogRead(A0));
           lcd.setCursor(0,2);
           lcd.print("V12K20:");
-          if ((V12_K19 > 370) || (V12_K19 < 530))
-          {
-            lcd.setCursor(8,2);
+          delay(500);
+          if ((V12_K19 > 370) && (V12_K19 < 600))
+                    {
+            lcd.setCursor(7,2);
             lcd.print("+");
             delay(500);
           }
           else
           {
-            lcd.setCursor(8,2);
+            lcd.setCursor(7,2);
             lcd.print("-");
             func_error();
           }
+          //Spannungsmessung Vneg12_K19
+          delay(200);
+          func_spgmess_Vneg12_K19();
+          Vneg12_K19 = (analogRead(A1));
+          lcd.setCursor(0,3);
+          lcd.print("V-12K19:");
+          delay(500);
+          if ((Vneg12_K19 > 370) && (Vneg12_K19 < 600))
+                    {
+            lcd.setCursor(8,3);
+            lcd.print("+");
+            delay(500);
+          }
+          else
+          {
+            lcd.setCursor(8,3);
+            lcd.print("-");
+            func_error();
+          }
+         //Spannungsmessung Vneg12_K20
+          delay(200);
+          func_spgmess_Vneg12_K20();
+          Vneg12_K20 = (analogRead(A1));
+          lcd.setCursor(11,0);
+          lcd.print("V-12K20:");
+          delay(500);
+          if ((Vneg12_K20 > 370) && (Vneg12_K20 < 600))
+                    {
+            lcd.setCursor(19,0);
+            lcd.print("+");
+            delay(500);
+          }
+          else
+          {
+            lcd.setCursor(19,0);
+            lcd.print("-");
+            func_error();
+          }
+           //Spannungsmessung Vadj_K20
+          delay(200);
+          func_spgmess_Vneg12_K20();
+          Vadj_K20 = (analogRead(A0));
+          lcd.setCursor(16,3);
+          lcd.print(Vadj_K20);
+          lcd.setCursor(11,1);
+          lcd.print("VadjK20:");
+          delay(500);
 
-      }
-if (digitalRead(A_X14) == HIGH)
-{
+          //hier Spannung an Poti senden ////SET SPI 255
+          digitalWrite(SCK_, LOW);
+          delay(1);
+          digitalWrite(CS, LOW);
+          func_spiout(255);    
+            
+          digitalWrite(CS, HIGH);
+          delay(1000);
+          Vadj_K20 = analogRead(A0);
+          lcd.setCursor(16,3);
+          lcd.print(Vadj_K20);
+
+          if ((Vadj_K20 > 0) && (Vadj_K20 < 1000))
+                    {
+            lcd.setCursor(19,1);
+            lcd.print("+");
+            delay(500);
+          }
+          else
+          {
+            lcd.setCursor(19,1);
+            lcd.print("-");
+            func_error();
+          } 
+          //Spannungsmessung VU_K19
+          delay(200);
+          func_spgmess_VU_K19();
+          VU_K19 = (analogRead(A0));
+          lcd.setCursor(13,2);
+          lcd.print("VUK19:");
+          delay(500);
+          if ((VU_K19 > 0) && (VU_K19 < 1000))
+          {
+            lcd.setCursor(19,2);
+            lcd.print("+");
+            delay(10000);
+          }
+          else
+          {
+            lcd.setCursor(19,2);
+            lcd.print("-");
+            func_error();
+            delay(10000);
+          } 
+      
+
+
+  
           delay(500);  
-          
           lcd.clear();
-          lcd.setCursor(1,1);
-          lcd.print("Strommessung"); 
+          lcd.setCursor(4,1);
+          lcd.print("Strommessung");
+          delay(2000);
           func_strmess_neg12V();
-          Ineg12 = (analogRead(A2));
+          Ineg12 = (analogRead(A2)); // zeile kommt weg wenn programm Funktuniert
           lcd.clear();
           lcd.setCursor(0,0);
-          lcd.print("-12V");
+          lcd.print("-12V:");
           lcd.setCursor(10,0);
-          lcd.print(Ineg12);
-          if ((Ineg12 > 120) || (Ineg12 < 280))
+          lcd.print(Ineg12);          // zeile kommt weg wenn programm Funktuniert
+          if ((Ineg12 > 370) && (Ineg12 < 600))
             {
+             lcd.setCursor(5,0); 
              lcd.print("+"); 
-             delay(1000);
+             delay(500);
             }
           else
           {
+            lcd.setCursor(5,0);
             lcd.print("-");
             func_error();
-          }    
-}
+          }
+          delay(500);
+          func_strmess_neg12VBeg();
+          I = (analogRead(A2));
+          lcd.setCursor(0,1);
+          lcd.print("-12V Beg:");
+          lcd.setCursor(0,3);
+          lcd.print(I);
+          if (I < 1)
+            {
+              lcd.setCursor(9,1);
+              lcd.print("+");
+              delay(5000);
+            }
+          else
+          {
+            lcd.setCursor(9,1);
+            lcd.print("-");
+            delay(5000);
+          }
+          
 
-// if (digitalRead(A_X14) == HIGH) 
-
-//     {
+          
+          func_spgmess();
       
-//       lcd.clear();
-//       lcd.setCursor(2,1);
-//       lcd.print("Strommessung");
-    
-//     digitalWrite(A_X14, LOW);   // LSB
-//     digitalWrite(B_X14, HIGH);
-//     digitalWrite(C_X14, LOW);  // MSB
-    
-//     digitalWrite(a_IC2a, HIGH); // LSB
-//     digitalWrite(b_IC2a, LOW);  // MSB
-//     delay(200);
-    
-//           //hier Spannung an Poti senden ////SET SPI 255
-//           digitalWrite(SCK_, LOW);
-//           delay(1);
-//           digitalWrite(CS, LOW);
-//           spiout(0);     
-            
-//           digitalWrite(CS, HIGH);
-//           delay(10000);
-//           Vadj_K20 = analogRead(A0);
-//           //Vadj_min=analogRead(A0);
+         
+      }
 
 
-//           //hier Spannung an Poti senden //SET SPI 0
-//           digitalWrite(SCK_, LOW);
-//           delay(1);
-//           digitalWrite(CS, LOW);
-//           spiout(255);
-//           //Rausnehmen nur zum anschauen
-//           digitalWrite(CS, HIGH);
-//           delay(10000);
+  
 
-//           Vadj_max = analogRead(A0);
-//     }
 
+
+  
 }
+
+
 
 

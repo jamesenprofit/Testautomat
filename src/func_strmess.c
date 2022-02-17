@@ -23,3 +23,27 @@ void func_strmess_neg12V()
     digitalWrite(b_IC2a, HIGH);  // MSB
     delay(200);
 }
+
+void func_strmess_neg12_1()
+
+{
+    digitalWrite(A_X14, HIGH);  // LSB
+    digitalWrite(B_X14, LOW);
+    digitalWrite(C_X14, HIGH);  // MSB
+    
+    digitalWrite(a_IC2a, LOW); // LSB
+    digitalWrite(b_IC2a, HIGH);  // MSB
+    delay(200); 
+}
+
+void func_spgmess_neg12_Beg()
+
+{
+    digitalWrite(A_X14, HIGH);  // LSB
+    digitalWrite(B_X14, LOW);
+    digitalWrite(C_X14, HIGH);  // MSB
+    
+    digitalWrite(a_IC2a, HIGH); // LSB
+    digitalWrite(b_IC2a, HIGH);  // MSB
+    delay(200); 
+}

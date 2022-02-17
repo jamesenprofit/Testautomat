@@ -8,7 +8,9 @@
 
 void func_spgmess()
 {
-      
+       digitalWrite(A_X14, LOW);   // LSB
+       digitalWrite(B_X14, LOW);
+       digitalWrite(C_X14, LOW);  // MSB     
 } 
 
 
@@ -87,17 +89,17 @@ void func_spgmess_Vadj_K20()
 
        digitalWrite(A_X14, LOW);   // LSB
        digitalWrite(B_X14, HIGH);
-       digitalWrite(C_X14, LOW);  // MSB
+       digitalWrite(C_X14, LOW);   // MSB
       
-       digitalWrite(a_IC2a, LOW); // LSB
-       digitalWrite(b_IC2a, LOW); // MSB
+       digitalWrite(a_IC2a, LOW);  // LSB
+       digitalWrite(b_IC2a, LOW);  // MSB
 
        delay(200); 
             
        //Vadj_K20 = (analogRead(AD_0));
 }
                 
-void func_spgmess_VU_K20()
+void func_spgmess_VU_K19()
 {
        delay(200);
        digitalWrite(A_X14, HIGH);   // LSB
@@ -108,7 +110,7 @@ void func_spgmess_VU_K20()
        digitalWrite(b_IC2a, LOW); // MSB
        delay(200);
               
-       //VU_K20 = (analogRead(AD_0));
+       //VU_K19 = (analogRead(AD_0));
 }                
             
                
